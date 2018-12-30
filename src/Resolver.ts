@@ -2,10 +2,16 @@ import { Constructor } from "./Constructor";
 import { Definition } from "./Definition";
 import { DependencyReflector } from "./DependencyReflector";
 
+/**
+ * Resolves services.
+ */
 export class Resolver {
   private readonly dependencyReflector: DependencyReflector;
   private readonly definitions: Map<Function, Definition>;
 
+  /**
+   * Creates a new service resolver.
+   */
   public constructor(dependencyReflector: DependencyReflector,
                      definitions: Map<Function, Definition>,
   ) {
@@ -13,6 +19,12 @@ export class Resolver {
     this.definitions = definitions;
   }
 
+  /**
+   * Resolves the specified service.
+   *
+   * @param service The service type to resolve.
+   * @returns The resolved service instance.
+   */
   public resolve<T>(service: Constructor<T>): T {
     const definition = this.definitions.get(service);
 
@@ -26,6 +38,11 @@ export class Resolver {
     return definition.instance as any as T;
   }
 
+  /**
+   * Get service registration count for the resolver.
+   *
+   * @returns How many services are registered for the resolver.
+   */
   public getDefinitionCount(): number {
     return this.definitions.size;
   }

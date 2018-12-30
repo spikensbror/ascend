@@ -19,6 +19,14 @@ export function removeService(definition: Definition): void {
   services.splice(index, 1);
 }
 
+/**
+ * Specifies that the decorated type is a service implementation that should be
+ * discovered by eligible Ascend resolvers.
+ *
+ * Note: Ascend resolvers can be configured not to discover decorated service implementors.
+ *
+ * @param service The service type that the implementation implements or same as the implementation if not specified.
+ */
 export function Service(service?: Function): (implementation: Function) => void {
   return (implementation: Function): void => {
     Injectable(implementation);

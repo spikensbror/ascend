@@ -17,10 +17,17 @@ export { Injectable } from "./decorators/Injectable";
 export { Service } from "./decorators/Service";
 
 // Type exports.
+export { Definition } from "./Definition";
 export { IBootstrapper } from "./IBootstrapper";
+export { IOptions } from "./IOptions";
 export { Registrator } from "./Registrator";
 export { Resolver } from "./Resolver";
 
+/**
+ * Creates an Ascend resolver with the provided options.
+ *
+ * @param options The options to apply when creating the resolver.
+ */
 export default function ascend(options: IOptions = new DefaultOptions()): Resolver {
   // Merge provided options into default options.
   options = { ...new DefaultOptions(), ...options };
