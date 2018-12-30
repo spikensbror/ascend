@@ -1,7 +1,5 @@
 /* tslint:disable:no-default-export */
 
-import "reflect-metadata";
-
 import { DefaultOptions } from "./DefaultOptions";
 import { DependencyReflector } from "./DependencyReflector";
 import { IOptions } from "./IOptions";

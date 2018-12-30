@@ -8,7 +8,7 @@ import ascend from "./integration/ascender";
 import {
   DecoratedExampleService,
   NotRegisteredService,
-} from "./integration-shared";
+} from "./integration/shared";
 
 import {
   IBootstrapper,

@@ -1,6 +1,6 @@
 import { Service } from "../../src";
 
-import { DecoratedDependencyService } from "../integration-shared";
+import { DecoratedDependencyService } from "./shared";
 
 @Service(DecoratedDependencyService)
 export class DecoratedDependencyServiceImpl implements DecoratedDependencyService {

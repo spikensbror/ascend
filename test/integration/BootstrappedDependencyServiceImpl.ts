@@ -1,4 +1,4 @@
-import { BootstrappedDependencyService } from "../integration-shared";
+import { BootstrappedDependencyService } from "./shared";
 
 export class BootstrappedDependencyServiceImpl implements BootstrappedDependencyService {
   private readonly letter: string;

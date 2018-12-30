@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 export class DependencyReflector {
   public getDependencies(implementation: Function): Function[] {
     if (!Reflect.hasOwnMetadata("ascend:injectable", implementation)) {

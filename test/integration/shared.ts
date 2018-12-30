@@ -21,7 +21,3 @@ export class BootstrappedDependencyService {
 export class NotRegisteredService {
   //
 }
-
-export function GenerateMetadata(target: any): void {
-  //
-}

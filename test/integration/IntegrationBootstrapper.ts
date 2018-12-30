@@ -4,7 +4,8 @@ import {
   Registrator,
 } from "../../src";
 
-import { BootstrappedDependencyService } from "../integration-shared";
+import { BootstrappedDependencyService } from "./shared";
+
 import { BootstrappedDependencyServiceImpl } from "./BootstrappedDependencyServiceImpl";
 
 @Bootstrapper

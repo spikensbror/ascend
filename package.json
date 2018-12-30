@@ -5,9 +5,9 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "all": "npm run build && npm run lint:all && npm run test",
+    "all": "npm run build && npm run lint && npm run test",
     "build": "tsc -b",
-    "lint:all": "npm run lint:src && npm run lint:test",
+    "lint": "npm run lint:src && npm run lint:test",
     "lint:src": "tslint -p src/tsconfig.json",
     "lint:test": "tslint -p test/tsconfig.json",
     "test": "SET TS_NODE_PROJECT=./test/tsconfig.json&& mocha -r ts-node/register test/**/*.spec.ts"

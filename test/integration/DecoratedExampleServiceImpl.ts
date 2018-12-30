@@ -4,7 +4,7 @@ import {
   BootstrappedDependencyService,
   DecoratedDependencyService,
   DecoratedExampleService,
-} from "../integration-shared";
+} from "./shared";
 
 import { SimpleDecoratedDependencyService } from "./SimpleDecoratedDependencyService";
 
