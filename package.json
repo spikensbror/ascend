@@ -1,0 +1,36 @@
+{
+  "name": "ascend",
+  "version": "1.0.0",
+  "description": "Inversion of control system for building TypeScript node applications.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "all": "npm run build && npm run lint:all && npm run test",
+    "build": "tsc -b",
+    "lint:all": "npm run lint:src && npm run lint:test",
+    "lint:src": "tslint -p src/tsconfig.json",
+    "lint:test": "tslint -p test/tsconfig.json",
+    "test": "SET TS_NODE_PROJECT=./test/tsconfig.json&& mocha -r ts-node/register test/**/*.spec.ts"
+  },
+  "keywords": [
+    "ascend",
+    "ioc",
+    "typescript"
+  ],
+  "author": "Kimmy Andersson <cyaspik@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.12.0",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "@types/node": "^10.12.18",
+    "reflect-metadata": "^0.1.12",
+    "typescript-tslint-plugin": "^0.2.1"
+  }
+}
