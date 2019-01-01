@@ -14,12 +14,20 @@ export class RegistratorVerifier {
     });
   }
 
-  private verifyRegistration(registrator: Registrator,
-                             service: Function,
-                             parent?: Function): void {
+  private verifyRegistration(
+    registrator: Registrator,
+    service: Function,
+    parent?: Function
+  ): void {
     const registration = registrator.getRegistrations().get(service);
     if (registration === undefined) {
-      throw new Error("Service '" + parent + "' depends on '" + service + "' which has not been registered.");
+      throw new Error(
+        "Service '" +
+          parent +
+          "' depends on '" +
+          service +
+          "' which has not been registered."
+      );
     }
 
     // If instance has already been constructed, we won't have to worry about

@@ -12,8 +12,9 @@ export class Resolver {
   /**
    * Creates a new service resolver.
    */
-  public constructor(dependencyReflector: DependencyReflector,
-                     registrations: Map<Function, Registration>,
+  public constructor(
+    dependencyReflector: DependencyReflector,
+    registrations: Map<Function, Registration>
   ) {
     this.dependencyReflector = dependencyReflector;
     this.registrations = registrations;
@@ -35,7 +36,7 @@ export class Resolver {
 
     this.tryCreateInstance(definition);
 
-    return definition.instance as any as T;
+    return (definition.instance as any) as T;
   }
 
   /**

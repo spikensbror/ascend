@@ -12,14 +12,14 @@ import "reflect-metadata";
 
 // Services
 
-export { BootstrappedDependencyServiceImpl } from "./BootstrappedDependencyServiceImpl";
-export { DecoratedDependencyServiceImpl } from "./DecoratedDependencyServiceImpl";
-export { DecoratedExampleServiceImpl } from "./DecoratedExampleServiceImpl";
-export { SimpleDecoratedDependencyService } from "./SimpleDecoratedDependencyService";
+export * from "./BootstrappedDependencyServiceImpl";
+export * from "./DecoratedDependencyServiceImpl";
+export * from "./DecoratedExampleServiceImpl";
+export * from "./SimpleDecoratedDependencyService";
 
 // Bootstrappers
 
-export { IntegrationBootstrapper } from "./IntegrationBootstrapper";
+export * from "./IntegrationBootstrapper";
 
 // Export
 

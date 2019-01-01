@@ -35,11 +35,13 @@ export function ascend(options: IOptions = new DefaultOptions()): Resolver {
   const registrationFactory = new RegistrationFactory();
   const registratorFactory = new RegistratorFactory(registrationFactory);
 
-  const resolverFactory = new ResolverFactory(dependencyReflector,
-                                              registratorVerifier,
-                                              registratorFactory,
-                                              implementations,
-                                              bootstrappers);
+  const resolverFactory = new ResolverFactory(
+    dependencyReflector,
+    registratorVerifier,
+    registratorFactory,
+    implementations,
+    bootstrappers
+  );
 
   return resolverFactory.create(options);
 }

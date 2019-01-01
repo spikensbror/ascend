@@ -33,7 +33,10 @@ export class Registrator {
    * @param service The service type to register.
    * @param instance The instance of the service.
    */
-  public registerInstance<T extends object>(service: Constructor<T>, instance: T): void {
+  public registerInstance<T extends object>(
+    service: Constructor<T>,
+    instance: T
+  ): void {
     this.setRegistration(new Registration(service, service, instance));
   }
 

@@ -1,8 +1,4 @@
-import {
-  Bootstrapper,
-  IBootstrapper,
-  Registrator,
-} from "../../src";
+import { Bootstrapper, IBootstrapper, Registrator } from "../../src";
 
 import { BootstrappedDependencyService } from "./shared";
 

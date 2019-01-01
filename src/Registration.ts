@@ -4,9 +4,10 @@ export class Registration {
 
   public instance?: object;
 
-  public constructor(service: Function,
-                     implementation: Function,
-                     instance?: object,
+  public constructor(
+    service: Function,
+    implementation: Function,
+    instance?: object
   ) {
     this.service = service;
     this.implementation = implementation;

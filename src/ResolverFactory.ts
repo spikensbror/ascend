@@ -14,11 +14,12 @@ export class ResolverFactory {
   private readonly implementations: Function[];
   private readonly bootstrappers: IBootstrapper[];
 
-  public constructor(dependencyReflector: DependencyReflector,
-                     registratorVerifier: RegistratorVerifier,
-                     registratorFactory: RegistratorFactory,
-                     implementations: Function[],
-                     bootstrappers: IBootstrapper[],
+  public constructor(
+    dependencyReflector: DependencyReflector,
+    registratorVerifier: RegistratorVerifier,
+    registratorFactory: RegistratorFactory,
+    implementations: Function[],
+    bootstrappers: IBootstrapper[]
   ) {
     this.dependencyReflector = dependencyReflector;
     this.registratorVerifier = registratorVerifier;
@@ -35,8 +36,10 @@ export class ResolverFactory {
 
     this.registratorVerifier.verify(registrator);
 
-    return new Resolver(this.dependencyReflector,
-                        registrator.getRegistrations());
+    return new Resolver(
+      this.dependencyReflector,
+      registrator.getRegistrations()
+    );
   }
 
   private registerServices(registrator: Registrator, options: IOptions): void {
@@ -51,8 +54,10 @@ export class ResolverFactory {
     this.implementations.forEach((i: Function) => registrator.register(i));
   }
 
-  private registerBootstrappers(registrator: Registrator,
-                                options: IOptions): void {
+  private registerBootstrappers(
+    registrator: Registrator,
+    options: IOptions
+  ): void {
     if (options.bootstrappers) {
       options.bootstrappers.forEach((b: IBootstrapper) => {
         b.bootstrap(registrator);

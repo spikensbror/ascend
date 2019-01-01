@@ -1,9 +1,6 @@
 import { Implements } from "../../src";
 
-import {
-  DecoratedDependencyService,
-  DecoratedExampleService,
-} from "./shared";
+import { DecoratedDependencyService, DecoratedExampleService } from "./shared";
 
 import { SimpleDecoratedDependencyService } from "./SimpleDecoratedDependencyService";
 
@@ -12,8 +9,9 @@ export class DecoratedExampleServiceImpl implements DecoratedExampleService {
   public readonly decorated: DecoratedDependencyService;
   public readonly simple: SimpleDecoratedDependencyService;
 
-  public constructor(decorated: DecoratedDependencyService,
-                     simple: SimpleDecoratedDependencyService,
+  public constructor(
+    decorated: DecoratedDependencyService,
+    simple: SimpleDecoratedDependencyService
   ) {
     this.decorated = decorated;
     this.simple = simple;

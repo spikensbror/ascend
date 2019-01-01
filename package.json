@@ -5,12 +5,11 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "all": "npm run build && npm run lint && npm run test",
+    "all": "npm run build && npm run format && npm run lint && npm run test",
     "build": "tsc -b",
-    "lint": "npm run lint:src && npm run lint:test",
-    "lint:src": "tslint -p src/tsconfig.json",
-    "lint:test": "tslint -p test/tsconfig.json",
-    "test": "SET TS_NODE_PROJECT=./test/tsconfig.json&& mocha -r ts-node/register test/**/*.spec.ts"
+    "lint": "tslint -p tsconfig.json",
+    "test": "SET TS_NODE_PROJECT=./test/tsconfig.json&& mocha -r ts-node/register test/**/*.spec.ts",
+    "format": "prettier --write {src,test}/**/*.ts"
   },
   "keywords": [
     "ascend",
@@ -24,6 +23,7 @@
     "@types/mocha": "^5.2.5",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
+    "prettier": "1.15.3",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2",

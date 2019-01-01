@@ -6,24 +6,18 @@ import "mocha";
 import {
   ascend,
   DecoratedExampleServiceImpl,
-  SimpleDecoratedDependencyService,
+  SimpleDecoratedDependencyService
 } from "./integration/ascender";
 
 import {
   DecoratedDependencyService,
   DecoratedExampleService,
-  NotRegisteredService,
+  NotRegisteredService
 } from "./integration/shared";
 
-import {
-  IBootstrapper,
-  Registrator,
-  Service,
-} from "../src";
+import { IBootstrapper, Registrator, Service } from "../src";
 
-import {
-  implementations as implementations,
-} from "../src/decorators/Implements";
+import { implementations } from "../src/decorators/Implements";
 
 describe("integration-test configured ascend resolver", () => {
   it("resolves the requested service and its dependencies as singleton", () => {
@@ -41,8 +35,13 @@ describe("integration-test configured ascend resolver", () => {
 
     const impl = service as DecoratedExampleServiceImpl;
 
-    expect(impl.decorated).to.equal(resolver.resolve(DecoratedDependencyService));
-    expect(impl.simple).to.equal(resolver.resolve(SimpleDecoratedDependencyService));
+    expect(impl.decorated).to.equal(
+      resolver.resolve(DecoratedDependencyService)
+    );
+
+    expect(impl.simple).to.equal(
+      resolver.resolve(SimpleDecoratedDependencyService)
+    );
   });
 
   describe("throws error", () => {
@@ -119,7 +118,7 @@ describe("integration-test configured ascend resolver", () => {
       }
 
       const resolver = ascend({
-        implementations: [ Test ],
+        implementations: [Test]
       });
 
       expect(() => resolver.resolve(Test)).not.to.throw();
@@ -138,9 +137,7 @@ describe("integration-test configured ascend resolver", () => {
       }
 
       const resolver = ascend({
-        bootstrappers: [
-          new TestBootstrapper(),
-        ],
+        bootstrappers: [new TestBootstrapper()]
       });
 
       expect(() => resolver.resolve(Test)).not.to.throw();
