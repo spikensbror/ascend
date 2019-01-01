@@ -6,7 +6,7 @@ export class RegistrationFactory {
       throw new Error(
         "Implementation of type '" +
           implementation +
-          "' has not been decorated with `@Service`."
+          "' is not injectable. Please make sure that is has been decorated."
       );
     }
 

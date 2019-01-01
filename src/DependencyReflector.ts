@@ -4,8 +4,7 @@ export class DependencyReflector {
       throw new Error(
         "Implementation type '" +
           implementation +
-          "' has not been decorated with `@Service` or " +
-          "`@Injectable`."
+          "' is not injectable. Please make sure that it has been decorated."
       );
     }
 
