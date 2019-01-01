@@ -1,13 +1,10 @@
+import { NotInjectableError } from "./NotInjectableError";
 import { Registration } from "./Registration";
 
 export class RegistrationFactory {
   public create(implementation: Function): Registration {
     if (!Reflect.hasOwnMetadata("ascend:injectable", implementation)) {
-      throw new Error(
-        "Implementation of type '" +
-          implementation +
-          "' is not injectable. Please make sure that is has been decorated."
-      );
+      throw new NotInjectableError(implementation);
     }
 
     const service = Reflect.getOwnMetadata("ascend:implements", implementation);
