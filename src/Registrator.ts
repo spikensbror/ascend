@@ -38,20 +38,20 @@ export class Registrator {
   }
 
   /**
-   * Registers a pre-made service registration.
-   *
-   * @param definition The service registration to register.
-   */
-  public registerDefinition(definition: Definition): void {
-    this.definitions.set(definition.service, definition);
-  }
-
-  /**
    * Get all service registrations performed by the registrator.
    *
    * @returns The service registrations performed by the registrator.
    */
   public getDefinitions(): Map<Function, Definition> {
     return this.definitions;
+  }
+
+  /**
+   * Registers a pre-made service registration.
+   *
+   * @param definition The service registration to register.
+   */
+  private registerDefinition(definition: Definition): void {
+    this.definitions.set(definition.service, definition);
   }
 }

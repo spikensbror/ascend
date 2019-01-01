@@ -1,8 +1,8 @@
-import { Service } from "../../src";
+import { Implements } from "../../src";
 
 import { DecoratedDependencyService } from "./shared";
 
-@Service(DecoratedDependencyService)
+@Implements(DecoratedDependencyService)
 export class DecoratedDependencyServiceImpl implements DecoratedDependencyService {
   public getB(): string {
     return "B";

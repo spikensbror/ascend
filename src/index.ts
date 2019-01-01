@@ -1,5 +1,3 @@
-/* tslint:disable:no-default-export */
-
 import { DefaultOptions } from "./DefaultOptions";
 import { DefinitionFactory } from "./DefinitionFactory";
 import { DependencyReflector } from "./DependencyReflector";
@@ -10,14 +8,14 @@ import { Resolver } from "./Resolver";
 import { ResolverFactory } from "./ResolverFactory";
 
 import { bootstrappers } from "./decorators/Bootstrapper";
-import { implementations } from "./decorators/Service";
+import { implementations } from "./decorators/Implements";
 
 // Decorator exports.
 export { Bootstrapper } from "./decorators/Bootstrapper";
+export { Implements } from "./decorators/Implements";
 export { Service } from "./decorators/Service";
 
 // Type exports.
-export { Definition } from "./Definition";
 export { IBootstrapper } from "./IBootstrapper";
 export { IOptions } from "./IOptions";
 export { Registrator } from "./Registrator";

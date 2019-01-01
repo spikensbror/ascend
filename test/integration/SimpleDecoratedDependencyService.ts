@@ -1,6 +1,6 @@
 import { Service } from "../../src";
 
-@Service()
+@Service
 export class SimpleDecoratedDependencyService {
   public getD(): string {
     return "D";

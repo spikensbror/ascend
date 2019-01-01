@@ -1,17 +1,10 @@
-export const implementations: Function[] = [];
-
-// TODO: Rename to Injectable instead?
+import { Implements } from "./Implements";
 
 /**
- * Specifies that the decorated type is a service implementation.
+ * Specifies that the decorated type is a self-implementing service.
  *
- * @param service The service type that the implementation implements or same as the implementation if not specified.
+ * @param implementation The self-implementing service type.
  */
-export function Service(service?: Function): (implementation: Function) => void {
-  return (implementation: Function): void => {
-    Reflect.defineMetadata("ascend:injectable", true, implementation);
-    Reflect.defineMetadata("ascend:implements", service || implementation, implementation);
-
-    implementations.push(implementation);
-  };
+export function Service(implementation: Function): void {
+  Implements(implementation)(implementation);
 }

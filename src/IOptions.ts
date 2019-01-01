@@ -5,8 +5,8 @@ import { IBootstrapper } from "./IBootstrapper";
  */
 export interface IOptions {
   /**
-   * Specifies if service implementation types decorated with `@Service` should
-   * automatically be registered with the resolver.
+   * Specifies if service implementation types decorated with `@Service` or
+   * `@Implements` should automatically be registered with the resolver.
    */
   discoverDecoratedImplementations?: boolean;
 

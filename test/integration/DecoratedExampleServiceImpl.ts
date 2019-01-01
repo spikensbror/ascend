@@ -1,4 +1,4 @@
-import { Service } from "../../src";
+import { Implements } from "../../src";
 
 import {
   DecoratedDependencyService,
@@ -7,7 +7,7 @@ import {
 
 import { SimpleDecoratedDependencyService } from "./SimpleDecoratedDependencyService";
 
-@Service(DecoratedExampleService)
+@Implements(DecoratedExampleService)
 export class DecoratedExampleServiceImpl implements DecoratedExampleService {
   private readonly decorated: DecoratedDependencyService;
   private readonly simple: SimpleDecoratedDependencyService;

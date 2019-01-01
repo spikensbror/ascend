@@ -18,7 +18,7 @@ import {
 
 import {
   implementations as globalImplementations,
-} from "../src/decorators/Service";
+} from "../src/decorators/Implements";
 
 describe("integration-test configured ascend resolver", () => {
   it("should be able to resolve the specified service and its dependencies", () => {
@@ -62,7 +62,7 @@ describe("integration-test configured ascend resolver", () => {
         //
       }
 
-      @Service()
+      @Service
       class A {
         public constructor(test: B) {
           //
@@ -102,7 +102,7 @@ describe("integration-test configured ascend resolver", () => {
     });
 
     it("should be able add implementations", () => {
-      @Service()
+      @Service
       class Test {
         //
       }
@@ -115,7 +115,7 @@ describe("integration-test configured ascend resolver", () => {
     });
 
     it("should be able to add bootstrappers", () => {
-      @Service()
+      @Service
       class Test {
         //
       }
