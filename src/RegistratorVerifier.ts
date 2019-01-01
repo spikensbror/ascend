@@ -9,11 +9,14 @@ export class RegistratorVerifier {
   }
 
   public verify(registrator: Registrator): void {
-    registrator.getRegistrations()
-      .forEach((r: any, s: Function) => this.verifyRegistration(registrator, s));
+    registrator.getRegistrations().forEach((r: any, s: Function) => {
+      this.verifyRegistration(registrator, s);
+    });
   }
 
-  private verifyRegistration(registrator: Registrator, service: Function, parent?: Function): void {
+  private verifyRegistration(registrator: Registrator,
+                             service: Function,
+                             parent?: Function): void {
     const registration = registrator.getRegistrations().get(service);
     if (registration === undefined) {
       throw new Error("Service '" + parent + "' depends on '" + service + "' which has not been registered.");
@@ -25,7 +28,10 @@ export class RegistratorVerifier {
       return;
     }
 
-    this.dependencyReflector.getDependencies(registration.implementation)
-      .forEach((s: Function) => this.verifyRegistration(registrator, s, service));
+    this.dependencyReflector
+      .getDependencies(registration.implementation)
+      .forEach((s: Function) => {
+        this.verifyRegistration(registrator, s, service);
+      });
   }
 }

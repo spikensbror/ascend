@@ -35,7 +35,8 @@ export class ResolverFactory {
 
     this.registratorVerifier.verify(registrator);
 
-    return new Resolver(this.dependencyReflector, registrator.getRegistrations());
+    return new Resolver(this.dependencyReflector,
+                        registrator.getRegistrations());
   }
 
   private registerServices(registrator: Registrator, options: IOptions): void {
@@ -50,9 +51,12 @@ export class ResolverFactory {
     this.implementations.forEach((i: Function) => registrator.register(i));
   }
 
-  private registerBootstrappers(registrator: Registrator, options: IOptions): void {
+  private registerBootstrappers(registrator: Registrator,
+                                options: IOptions): void {
     if (options.bootstrappers) {
-      options.bootstrappers.forEach((b: IBootstrapper) => b.bootstrap(registrator));
+      options.bootstrappers.forEach((b: IBootstrapper) => {
+        b.bootstrap(registrator);
+      });
     }
 
     if (!options.discoverDecoratedBootstrappers) {

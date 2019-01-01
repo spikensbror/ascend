@@ -22,21 +22,25 @@ import {
 } from "../src";
 
 import {
-  implementations as globalImplementations,
+  implementations as implementations,
 } from "../src/decorators/Implements";
 
 describe("integration-test configured ascend resolver", () => {
   it("resolves the requested service and its dependencies as singleton", () => {
     const resolver = ascend();
 
-    // Resolve service, ensure that it is of the expected implementation type and
-    // that we will always get the same instance from the resolver.
+    // Resolve service, ensure that it is of the expected implementation type
+    // and that we will always get the same instance from the resolver.
+
     const service = resolver.resolve(DecoratedExampleService);
+
     expect(service).to.be.an.instanceOf(DecoratedExampleServiceImpl);
     expect(service).to.equal(resolver.resolve(DecoratedExampleService));
 
     // Verify the service dependencies.
+
     const impl = service as DecoratedExampleServiceImpl;
+
     expect(impl.decorated).to.equal(resolver.resolve(DecoratedDependencyService));
     expect(impl.simple).to.equal(resolver.resolve(SimpleDecoratedDependencyService));
   });
@@ -48,12 +52,12 @@ describe("integration-test configured ascend resolver", () => {
       // Remove any added services and clear the array.
 
       addedImplementations.forEach((i: Function) => {
-        const index = globalImplementations.indexOf(i);
+        const index = implementations.indexOf(i);
         if (index < 0) {
           return;
         }
 
-        globalImplementations.splice(index, 1);
+        implementations.splice(index, 1);
       });
 
       addedImplementations = [];
@@ -88,7 +92,7 @@ describe("integration-test configured ascend resolver", () => {
       }
 
       addedImplementations.push(A);
-      globalImplementations.push(A);
+      implementations.push(A);
 
       expect(() => ascend()).to.throw();
     });
@@ -96,9 +100,8 @@ describe("integration-test configured ascend resolver", () => {
 
   describe("with options", () => {
     it("disables discovery of decorated implementations", () => {
-      const defaultResolver = ascend();
       const resolver = ascend({ discoverDecoratedImplementations: false });
-      const expected = defaultResolver.getRegistrationCount() - globalImplementations.length;
+      const expected = ascend().getRegistrationCount() - implementations.length;
 
       expect(resolver.getRegistrationCount()).to.equal(expected);
     });
@@ -106,7 +109,7 @@ describe("integration-test configured ascend resolver", () => {
     it("disables discovery of bootstrappers", () => {
       const resolver = ascend({ discoverDecoratedBootstrappers: false });
 
-      expect(resolver.getRegistrationCount()).to.equal(globalImplementations.length);
+      expect(resolver.getRegistrationCount()).to.equal(implementations.length);
     });
 
     it("registers implementations", () => {

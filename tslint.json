@@ -9,6 +9,7 @@
       "prefer-readonly": true,
       "no-default-export": true,
       "no-default-import": false,
+      "max-line-length": [true, 120],
       "typedef": [
         true,
         "call-signature",
