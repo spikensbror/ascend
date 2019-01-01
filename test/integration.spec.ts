@@ -3,9 +3,14 @@
 import { expect } from "chai";
 import "mocha";
 
-import { ascend } from "./integration/ascender";
+import {
+  ascend,
+  DecoratedExampleServiceImpl,
+  SimpleDecoratedDependencyService,
+} from "./integration/ascender";
 
 import {
+  DecoratedDependencyService,
   DecoratedExampleService,
   NotRegisteredService,
 } from "./integration/shared";
@@ -21,19 +26,22 @@ import {
 } from "../src/decorators/Implements";
 
 describe("integration-test configured ascend resolver", () => {
-  it("should be able to resolve the specified service and its dependencies", () => {
-    expect(ascend().resolve(DecoratedExampleService).getA()).to.equal("ABD");
-  });
-
-  it("should resolve the requested service as a singleton", () => {
+  it("resolves the requested service and its dependencies as singleton", () => {
     const resolver = ascend();
-    const expected = resolver.resolve(DecoratedExampleService);
 
-    expect(resolver.resolve(DecoratedExampleService)).to.equal(expected);
-    expect(resolver.resolve(DecoratedExampleService)).to.equal(expected);
+    // Resolve service, ensure that it is of the expected implementation type and
+    // that we will always get the same instance from the resolver.
+    const service = resolver.resolve(DecoratedExampleService);
+    expect(service).to.be.an.instanceOf(DecoratedExampleServiceImpl);
+    expect(service).to.equal(resolver.resolve(DecoratedExampleService));
+
+    // Verify the service dependencies.
+    const impl = service as DecoratedExampleServiceImpl;
+    expect(impl.decorated).to.equal(resolver.resolve(DecoratedDependencyService));
+    expect(impl.simple).to.equal(resolver.resolve(SimpleDecoratedDependencyService));
   });
 
-  describe("should throw error", () => {
+  describe("throws error", () => {
     let addedImplementations: any[] = [];
 
     afterEach(() => {
@@ -51,13 +59,13 @@ describe("integration-test configured ascend resolver", () => {
       addedImplementations = [];
     });
 
-    it("if trying to resolve unregistered service", () => {
+    it("when trying to resolve unregistered service", () => {
       const resolver = ascend();
 
       expect(() => resolver.resolve(NotRegisteredService)).to.throw();
     });
 
-    it("if registration with unregistered dependencies has been made", () => {
+    it("when registration with unregistered dependencies has been made", () => {
       class B {
         //
       }
@@ -74,7 +82,7 @@ describe("integration-test configured ascend resolver", () => {
       expect(() => ascend()).to.throw();
     });
 
-    it("if registration of undecorated implementation has been made", () => {
+    it("when registration of undecorated implementation has been made", () => {
       class A {
         //
       }
@@ -87,7 +95,7 @@ describe("integration-test configured ascend resolver", () => {
   });
 
   describe("with options", () => {
-    it("should be able to disable discovery of decorated implementations", () => {
+    it("disables discovery of decorated implementations", () => {
       const defaultResolver = ascend();
       const resolver = ascend({ discoverDecoratedImplementations: false });
       const expected = defaultResolver.getRegistrationCount() - globalImplementations.length;
@@ -95,13 +103,13 @@ describe("integration-test configured ascend resolver", () => {
       expect(resolver.getRegistrationCount()).to.equal(expected);
     });
 
-    it("should be able to disable discovery of bootstrappers", () => {
+    it("disables discovery of bootstrappers", () => {
       const resolver = ascend({ discoverDecoratedBootstrappers: false });
 
       expect(resolver.getRegistrationCount()).to.equal(globalImplementations.length);
     });
 
-    it("should be able add implementations", () => {
+    it("registers implementations", () => {
       @Service
       class Test {
         //
@@ -114,7 +122,7 @@ describe("integration-test configured ascend resolver", () => {
       expect(() => resolver.resolve(Test)).not.to.throw();
     });
 
-    it("should be able to add bootstrappers", () => {
+    it("registers bootstrappers", () => {
       @Service
       class Test {
         //

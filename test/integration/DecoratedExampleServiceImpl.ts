@@ -9,8 +9,8 @@ import { SimpleDecoratedDependencyService } from "./SimpleDecoratedDependencySer
 
 @Implements(DecoratedExampleService)
 export class DecoratedExampleServiceImpl implements DecoratedExampleService {
-  private readonly decorated: DecoratedDependencyService;
-  private readonly simple: SimpleDecoratedDependencyService;
+  public readonly decorated: DecoratedDependencyService;
+  public readonly simple: SimpleDecoratedDependencyService;
 
   public constructor(decorated: DecoratedDependencyService,
                      simple: SimpleDecoratedDependencyService,
@@ -20,8 +20,6 @@ export class DecoratedExampleServiceImpl implements DecoratedExampleService {
   }
 
   public getA(): string {
-    return "A" +
-      this.decorated.getB() +
-      this.simple.getD();
+    return "Hello";
   }
 }
