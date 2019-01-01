@@ -1,7 +1,7 @@
-import { Definition } from "./Definition";
+import { Registration } from "./Registration";
 
-export class DefinitionFactory {
-  public create(implementation: Function): Definition {
+export class RegistrationFactory {
+  public create(implementation: Function): Registration {
     if (!Reflect.hasOwnMetadata("ascend:injectable", implementation)) {
       throw new Error("Implementation of type '" +
                       implementation +
@@ -10,6 +10,6 @@ export class DefinitionFactory {
 
     const service = Reflect.getOwnMetadata("ascend:implements", implementation);
 
-    return new Definition(service, implementation);
+    return new Registration(service, implementation);
   }
 }

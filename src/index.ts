@@ -1,7 +1,7 @@
 import { DefaultOptions } from "./DefaultOptions";
-import { DefinitionFactory } from "./DefinitionFactory";
 import { DependencyReflector } from "./DependencyReflector";
 import { IOptions } from "./IOptions";
+import { RegistrationFactory } from "./RegistrationFactory";
 import { RegistratorFactory } from "./RegistratorFactory";
 import { RegistratorVerifier } from "./RegistratorVerifier";
 import { Resolver } from "./Resolver";
@@ -32,8 +32,8 @@ export function ascend(options: IOptions = new DefaultOptions()): Resolver {
 
   const dependencyReflector = new DependencyReflector();
   const registratorVerifier = new RegistratorVerifier(dependencyReflector);
-  const definitionFactory = new DefinitionFactory();
-  const registratorFactory = new RegistratorFactory(definitionFactory);
+  const registrationFactory = new RegistrationFactory();
+  const registratorFactory = new RegistratorFactory(registrationFactory);
 
   const resolverFactory = new ResolverFactory(dependencyReflector,
                                               registratorVerifier,

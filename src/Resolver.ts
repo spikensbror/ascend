@@ -1,22 +1,22 @@
 import { Constructor } from "./Constructor";
-import { Definition } from "./Definition";
 import { DependencyReflector } from "./DependencyReflector";
+import { Registration } from "./Registration";
 
 /**
  * Resolves services.
  */
 export class Resolver {
   private readonly dependencyReflector: DependencyReflector;
-  private readonly definitions: Map<Function, Definition>;
+  private readonly registrations: Map<Function, Registration>;
 
   /**
    * Creates a new service resolver.
    */
   public constructor(dependencyReflector: DependencyReflector,
-                     definitions: Map<Function, Definition>,
+                     registrations: Map<Function, Registration>,
   ) {
     this.dependencyReflector = dependencyReflector;
-    this.definitions = definitions;
+    this.registrations = registrations;
   }
 
   /**
@@ -26,7 +26,7 @@ export class Resolver {
    * @returns The resolved service instance.
    */
   public resolve<T>(service: Constructor<T>): T {
-    const definition = this.definitions.get(service);
+    const definition = this.registrations.get(service);
 
     // Make sure that the service has been registered.
     if (definition === undefined) {
@@ -43,28 +43,26 @@ export class Resolver {
    *
    * @returns How many services are registered for the resolver.
    */
-  public getDefinitionCount(): number {
-    return this.definitions.size;
+  public getRegistrationCount(): number {
+    return this.registrations.size;
   }
 
-  private tryCreateInstance(definition: Definition): void {
+  private tryCreateInstance(registration: Registration): void {
     // If there already is an instance stored on the definition, we simply
     // return as we want everything to be singleton.
-    if (definition.instance !== undefined) {
+    if (registration.instance !== undefined) {
       return;
     }
 
     // We grab the implementation as `any` because otherwise we're not allowed
     // to do `new` with it.
-    const implementation: any = definition.implementation;
+    const implementation: any = registration.implementation;
     const args: any[] = [];
     const dependencies = this.getDependencies(implementation);
 
-    dependencies.forEach((d: Function) => {
-      args.push(this.resolve(d));
-    });
+    dependencies.forEach((d: Function) => args.push(this.resolve(d)));
 
-    definition.instance = new implementation(...args);
+    registration.instance = new implementation(...args);
   }
 
   private getDependencies(implementation: Function): Function[] {

@@ -90,15 +90,15 @@ describe("integration-test configured ascend resolver", () => {
     it("should be able to disable discovery of decorated implementations", () => {
       const defaultResolver = ascend();
       const resolver = ascend({ discoverDecoratedImplementations: false });
-      const expected = defaultResolver.getDefinitionCount() - globalImplementations.length;
+      const expected = defaultResolver.getRegistrationCount() - globalImplementations.length;
 
-      expect(resolver.getDefinitionCount()).to.equal(expected);
+      expect(resolver.getRegistrationCount()).to.equal(expected);
     });
 
     it("should be able to disable discovery of bootstrappers", () => {
       const resolver = ascend({ discoverDecoratedBootstrappers: false });
 
-      expect(resolver.getDefinitionCount()).to.equal(globalImplementations.length);
+      expect(resolver.getRegistrationCount()).to.equal(globalImplementations.length);
     });
 
     it("should be able add implementations", () => {

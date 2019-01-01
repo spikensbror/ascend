@@ -1,14 +1,14 @@
-import { DefinitionFactory } from "./DefinitionFactory";
+import { RegistrationFactory } from "./RegistrationFactory";
 import { Registrator } from "./Registrator";
 
 export class RegistratorFactory {
-  private readonly definitionFactory: DefinitionFactory;
+  private readonly registrationFactory: RegistrationFactory;
 
-  public constructor(definitionFactory: DefinitionFactory) {
-    this.definitionFactory = definitionFactory;
+  public constructor(registrationFactory: RegistrationFactory) {
+    this.registrationFactory = registrationFactory;
   }
 
   public create(): Registrator {
-    return new Registrator(this.definitionFactory);
+    return new Registrator(this.registrationFactory);
   }
 }

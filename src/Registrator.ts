@@ -1,20 +1,20 @@
 import { Constructor } from "./Constructor";
-import { Definition } from "./Definition";
-import { DefinitionFactory } from "./DefinitionFactory";
+import { Registration } from "./Registration";
+import { RegistrationFactory } from "./RegistrationFactory";
 
 /**
  * Registers services for a resolver.
  */
 export class Registrator {
-  private readonly definitionFactory: DefinitionFactory;
-  private readonly definitions: Map<Function, Definition>;
+  private readonly registrationFactory: RegistrationFactory;
+  private readonly registrations: Map<Function, Registration>;
 
   /**
    * Creates a new service registrator.
    */
-  public constructor(definitionFactory: DefinitionFactory) {
-    this.definitionFactory = definitionFactory;
-    this.definitions = new Map<Function, Definition>();
+  public constructor(registrationFactory: RegistrationFactory) {
+    this.registrationFactory = registrationFactory;
+    this.registrations = new Map<Function, Registration>();
   }
 
   /**
@@ -24,7 +24,7 @@ export class Registrator {
    * @param implementation The service implementation type, same as `service` if undefined.
    */
   public register(implementation: Function): void {
-    this.registerDefinition(this.definitionFactory.create(implementation));
+    this.setRegistration(this.registrationFactory.create(implementation));
   }
 
   /**
@@ -34,7 +34,7 @@ export class Registrator {
    * @param instance The instance of the service.
    */
   public registerInstance<T extends object>(service: Constructor<T>, instance: T): void {
-    this.registerDefinition(new Definition(service, service, instance));
+    this.setRegistration(new Registration(service, service, instance));
   }
 
   /**
@@ -42,8 +42,8 @@ export class Registrator {
    *
    * @returns The service registrations performed by the registrator.
    */
-  public getDefinitions(): Map<Function, Definition> {
-    return this.definitions;
+  public getRegistrations(): Map<Function, Registration> {
+    return this.registrations;
   }
 
   /**
@@ -51,7 +51,7 @@ export class Registrator {
    *
    * @param definition The service registration to register.
    */
-  private registerDefinition(definition: Definition): void {
-    this.definitions.set(definition.service, definition);
+  private setRegistration(registration: Registration): void {
+    this.registrations.set(registration.service, registration);
   }
 }
