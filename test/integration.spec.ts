@@ -3,7 +3,7 @@
 import { expect } from "chai";
 import "mocha";
 
-import ascend from "./integration/ascender";
+import { ascend } from "./integration/ascender";
 
 import {
   DecoratedExampleService,
@@ -12,19 +12,17 @@ import {
 
 import {
   IBootstrapper,
-  Injectable,
   Registrator,
+  Service,
 } from "../src";
 
 import {
-  addService,
-  removeService,
-  services as globalDecoratedServices,
+  implementations as globalImplementations,
 } from "../src/decorators/Service";
 
 describe("integration-test configured ascend resolver", () => {
   it("should be able to resolve the specified service and its dependencies", () => {
-    expect(ascend().resolve(DecoratedExampleService).getA()).to.equal("ABCD");
+    expect(ascend().resolve(DecoratedExampleService).getA()).to.equal("ABD");
   });
 
   it("should resolve the requested service as a singleton", () => {
@@ -36,11 +34,21 @@ describe("integration-test configured ascend resolver", () => {
   });
 
   describe("should throw error", () => {
-    let addedServices: any[] = [];
+    let addedImplementations: any[] = [];
 
     afterEach(() => {
-      addedServices.forEach((d: any) => removeService(d));
-      addedServices = [];
+      // Remove any added services and clear the array.
+
+      addedImplementations.forEach((i: any) => {
+        const index = globalImplementations.indexOf(i);
+        if (index < 0) {
+          return;
+        }
+
+        globalImplementations.splice(index, 1);
+      });
+
+      addedImplementations = [];
     });
 
     it("if trying to resolve unregistered service", () => {
@@ -54,14 +62,14 @@ describe("integration-test configured ascend resolver", () => {
         //
       }
 
-      @Injectable
+      @Service()
       class A {
         public constructor(test: B) {
           //
         }
       }
 
-      addedServices.push(addService(A, A));
+      addedImplementations.push(A);
 
       expect(() => ascend()).to.throw();
     });
@@ -71,17 +79,18 @@ describe("integration-test configured ascend resolver", () => {
         //
       }
 
-      addedServices.push(addService(A, A));
+      addedImplementations.push(A);
+      globalImplementations.push(A);
 
       expect(() => ascend()).to.throw();
     });
   });
 
   describe("with options", () => {
-    it("should be able to disable discovery of decorated services", () => {
+    it("should be able to disable discovery of decorated implementations", () => {
       const defaultResolver = ascend();
-      const resolver = ascend({ discoverDecoratedServices: false });
-      const expected = defaultResolver.getDefinitionCount() - globalDecoratedServices.length;
+      const resolver = ascend({ discoverDecoratedImplementations: false });
+      const expected = defaultResolver.getDefinitionCount() - globalImplementations.length;
 
       expect(resolver.getDefinitionCount()).to.equal(expected);
     });
@@ -89,26 +98,24 @@ describe("integration-test configured ascend resolver", () => {
     it("should be able to disable discovery of bootstrappers", () => {
       const resolver = ascend({ discoverDecoratedBootstrappers: false });
 
-      expect(resolver.getDefinitionCount()).to.equal(globalDecoratedServices.length);
+      expect(resolver.getDefinitionCount()).to.equal(globalImplementations.length);
     });
 
-    it("should be able add services", () => {
-      @Injectable
+    it("should be able add implementations", () => {
+      @Service()
       class Test {
         //
       }
 
       const resolver = ascend({
-        services: [
-          { service: Test, implementation: Test },
-        ],
+        implementations: [ Test ],
       });
 
       expect(() => resolver.resolve(Test)).not.to.throw();
     });
 
     it("should be able to add bootstrappers", () => {
-      @Injectable
+      @Service()
       class Test {
         //
       }

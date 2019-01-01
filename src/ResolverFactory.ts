@@ -1,4 +1,3 @@
-import { Definition } from "./Definition";
 import { DependencyReflector } from "./DependencyReflector";
 import { IBootstrapper } from "./IBootstrapper";
 import { IOptions } from "./IOptions";
@@ -12,19 +11,19 @@ export class ResolverFactory {
   private readonly registratorVerifier: RegistratorVerifier;
   private readonly registratorFactory: RegistratorFactory;
 
-  private readonly services: Definition[];
+  private readonly implementations: Function[];
   private readonly bootstrappers: IBootstrapper[];
 
   public constructor(dependencyReflector: DependencyReflector,
                      registratorVerifier: RegistratorVerifier,
                      registratorFactory: RegistratorFactory,
-                     services: Definition[],
+                     implementations: Function[],
                      bootstrappers: IBootstrapper[],
   ) {
     this.dependencyReflector = dependencyReflector;
     this.registratorVerifier = registratorVerifier;
     this.registratorFactory = registratorFactory;
-    this.services = services;
+    this.implementations = implementations;
     this.bootstrappers = bootstrappers;
   }
 
@@ -40,16 +39,15 @@ export class ResolverFactory {
   }
 
   private registerServices(registrator: Registrator, options: IOptions): void {
-    if (options.services) {
-      options.services
-        .forEach((d: Definition) => registrator.registerDefinition(d));
+    if (options.implementations) {
+      options.implementations.forEach((i: Function) => registrator.register(i));
     }
 
-    if (!options.discoverDecoratedServices) {
+    if (!options.discoverDecoratedImplementations) {
       return;
     }
 
-    this.services.forEach((d: Definition) => registrator.registerDefinition(d));
+    this.implementations.forEach((i: Function) => registrator.register(i));
   }
 
   private registerBootstrappers(registrator: Registrator, options: IOptions): void {

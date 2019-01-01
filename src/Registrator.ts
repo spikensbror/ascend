@@ -1,26 +1,30 @@
+import { Constructor } from "./Constructor";
 import { Definition } from "./Definition";
+import { DefinitionFactory } from "./DefinitionFactory";
 
 /**
  * Registers services for a resolver.
  */
 export class Registrator {
+  private readonly definitionFactory: DefinitionFactory;
   private readonly definitions: Map<Function, Definition>;
 
   /**
    * Creates a new service registrator.
    */
-  public constructor() {
+  public constructor(definitionFactory: DefinitionFactory) {
+    this.definitionFactory = definitionFactory;
     this.definitions = new Map<Function, Definition>();
   }
 
   /**
-   * Registers a service that should be managed by the resolver.
+   * Registers a service implementation that should be managed by the resolver.
    *
    * @param service The service type to register.
    * @param implementation The service implementation type, same as `service` if undefined.
    */
-  public register(service: Function, implementation?: Function): void {
-    this.registerDefinition(new Definition(service, implementation || service));
+  public register(implementation: Function): void {
+    this.registerDefinition(this.definitionFactory.create(implementation));
   }
 
   /**
@@ -29,7 +33,7 @@ export class Registrator {
    * @param service The service type to register.
    * @param instance The instance of the service.
    */
-  public registerInstance(service: Function, instance: object): void {
+  public registerInstance<T extends object>(service: Constructor<T>, instance: T): void {
     this.registerDefinition(new Definition(service, service, instance));
   }
 

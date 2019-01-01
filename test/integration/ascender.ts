@@ -23,4 +23,4 @@ export { IntegrationBootstrapper } from "./IntegrationBootstrapper";
 
 // Export
 
-export { default } from "../../src";
+export { ascend } from "../../src";

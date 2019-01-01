@@ -1,6 +1,7 @@
 /* tslint:disable:no-default-export */
 
 import { DefaultOptions } from "./DefaultOptions";
+import { DefinitionFactory } from "./DefinitionFactory";
 import { DependencyReflector } from "./DependencyReflector";
 import { IOptions } from "./IOptions";
 import { RegistratorFactory } from "./RegistratorFactory";
@@ -9,11 +10,10 @@ import { Resolver } from "./Resolver";
 import { ResolverFactory } from "./ResolverFactory";
 
 import { bootstrappers } from "./decorators/Bootstrapper";
-import { services } from "./decorators/Service";
+import { implementations } from "./decorators/Service";
 
 // Decorator exports.
 export { Bootstrapper } from "./decorators/Bootstrapper";
-export { Injectable } from "./decorators/Injectable";
 export { Service } from "./decorators/Service";
 
 // Type exports.
@@ -28,17 +28,19 @@ export { Resolver } from "./Resolver";
  *
  * @param options The options to apply when creating the resolver.
  */
-export default function ascend(options: IOptions = new DefaultOptions()): Resolver {
+export function ascend(options: IOptions = new DefaultOptions()): Resolver {
   // Merge provided options into default options.
   options = { ...new DefaultOptions(), ...options };
 
   const dependencyReflector = new DependencyReflector();
   const registratorVerifier = new RegistratorVerifier(dependencyReflector);
-  const registratorFactory = new RegistratorFactory();
+  const definitionFactory = new DefinitionFactory();
+  const registratorFactory = new RegistratorFactory(definitionFactory);
+
   const resolverFactory = new ResolverFactory(dependencyReflector,
                                               registratorVerifier,
                                               registratorFactory,
-                                              services,
+                                              implementations,
                                               bootstrappers);
 
   return resolverFactory.create(options);
