@@ -42,12 +42,12 @@ describe("integration-test configured ascend resolver", () => {
   });
 
   describe("throws error", () => {
-    let addedImplementations: any[] = [];
+    let addedImplementations: Function[] = [];
 
     afterEach(() => {
       // Remove any added services and clear the array.
 
-      addedImplementations.forEach((i: any) => {
+      addedImplementations.forEach((i: Function) => {
         const index = globalImplementations.indexOf(i);
         if (index < 0) {
           return;
