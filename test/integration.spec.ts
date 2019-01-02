@@ -19,7 +19,7 @@ import {
   NotRegisteredService
 } from "./integration/shared";
 
-import { IBootstrapper, Registrator, Service } from "../src";
+import { IBootstrapper, Registrator, Resolver, Service } from "../src";
 
 import { implementations } from "../src/decorators/Implements";
 
@@ -56,6 +56,12 @@ describe("integration-test configured ascend resolver", () => {
 
     expect(multipleTypes).to.include(MultiDecoratedDependencyServiceImpl1);
     expect(multipleTypes).to.include(MultiDecoratedDependencyServiceImpl2);
+  });
+
+  it("resolves itself", () => {
+    const resolver = ascend();
+
+    expect(resolver.resolve(Resolver)).to.equal(resolver);
   });
 
   describe("throws error", () => {

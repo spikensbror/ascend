@@ -1,6 +1,7 @@
 import { DependencyReflector } from "./DependencyReflector";
 import { Registration } from "./Registration";
 import { Registrator } from "./Registrator";
+import { Resolver } from "./Resolver";
 
 export class RegistratorVerifier {
   private readonly dependencyReflector: DependencyReflector;
@@ -20,6 +21,10 @@ export class RegistratorVerifier {
     service: Function,
     parent?: Function
   ): void {
+    if (service === Resolver) {
+      return;
+    }
+
     const registrations = registrator.getRegistrations().get(service);
     if (registrations === undefined) {
       throw new Error(

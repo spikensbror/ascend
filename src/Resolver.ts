@@ -18,6 +18,10 @@ export class Resolver {
   ) {
     this.dependencyReflector = dependencyReflector;
     this.registrations = registrations;
+
+    this.registrations.set(Resolver, [
+      new Registration(Resolver, Resolver, this)
+    ]);
   }
 
   /**
