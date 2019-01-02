@@ -1,5 +1,5 @@
 {
-  "name": "ascend",
+  "name": "ascend-ioc",
   "version": "1.0.0",
   "description": "Inversion of control system for building TypeScript node applications.",
   "main": "lib/index.js",

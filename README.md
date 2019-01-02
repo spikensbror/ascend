@@ -25,7 +25,7 @@ is performed simply via the types themselves.
 ### NPM
 
 ```
-npm install ascend reflect-metadata
+npm install ascend-ioc reflect-metadata
 ```
 
 ### `reflect-metadata`
@@ -44,7 +44,7 @@ bootstrap function, you receive a resolver. From here, you can begin resolving
 services for your application:
 
 ```typescript
-import { ascend } from "ascend";
+import { ascend } from "ascend-ioc";
 
 const resolver = ascend({
   // Specify IOptions parameters here...
@@ -119,7 +119,7 @@ See the following files for the main entry points of a working implementation.
 From there, you can look at any additionally imported files for more information.
 
 Note: The imports are project-local here, in your project you'd use
-`import ... from "ascend"` instead of `import ... from "../../src`.
+`import ... from "ascend-ioc"` instead of `import ... from "../../src`.
 
 ## Gotchas
 
@@ -151,7 +151,7 @@ This is usually made through an `ascender.ts` imported in your `index.ts`-equiva
 export * from "./something/all";
 export * from "./other/all";
 
-export { ascend } from "ascend";
+export { ascend } from "ascend-ioc";
 ```
 
 A tip here is to use barrel files to reduce the maintenance of your ascender file.
