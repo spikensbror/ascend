@@ -4,6 +4,8 @@
   "description": "Inversion of control system for building TypeScript node applications.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "repository": "spikensbror/ascend",
+  "homepage": "https://github.com/spikensbror/ascend#readme",
   "scripts": {
     "all": "npm run build && npm run format && npm run lint && npm run test",
     "build": "tsc -b",

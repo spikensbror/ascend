@@ -11,10 +11,8 @@ get the same instance for that specific resolver.
 ## Why?
 
 A big pitfall of many IoC systems is the fact that transient and singleton state
-can easily be mixed up without too much thought.
-
-By not managing transient state, Ascend ensures that the implementor is responsible
-for managing.
+can easily be mixed up without too much thought. By not managing transient state,
+Ascend ensures that the implementor has to maintain its transient state.
 
 Unlike many other implementations for JS/TS, there's no need to maintain a set of
 "keys" for the services that you register with Ascend. Registration and resolving
