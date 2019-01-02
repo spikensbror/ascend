@@ -1,4 +1,5 @@
 import { DependencyReflector } from "./DependencyReflector";
+import { Registration } from "./Registration";
 import { Registrator } from "./Registrator";
 
 export class RegistratorVerifier {
@@ -19,8 +20,8 @@ export class RegistratorVerifier {
     service: Function,
     parent?: Function
   ): void {
-    const registration = registrator.getRegistrations().get(service);
-    if (registration === undefined) {
+    const registrations = registrator.getRegistrations().get(service);
+    if (registrations === undefined) {
       throw new Error(
         "Service '" +
           parent +
@@ -30,16 +31,40 @@ export class RegistratorVerifier {
       );
     }
 
-    // If instance has already been constructed, we won't have to worry about
-    // dependencies.
-    if (registration.instance !== undefined) {
-      return;
-    }
+    registrations.forEach((registration: Registration) => {
+      // If instance has already been constructed, we won't have to worry about
+      // dependencies.
+      if (registration.instance !== undefined) {
+        return;
+      }
 
-    this.dependencyReflector
-      .getDependencies(registration.implementation)
-      .forEach((s: Function) => {
-        this.verifyRegistration(registrator, s, service);
-      });
+      this.dependencyReflector
+        .getDependencies(registration.implementation)
+        .forEach((d: Function, i: number) => {
+          this.verifyDependency(registrator, registration, d, i);
+        });
+    });
+  }
+
+  private verifyDependency(
+    registrator: Registrator,
+    registration: Registration,
+    dependency: Function,
+    parameterIndex: number
+  ): void {
+    const allDecoratorType = this.dependencyReflector.getAllDecoratorType(
+      registration.implementation,
+      parameterIndex
+    );
+
+    if (allDecoratorType !== undefined) {
+      this.verifyRegistration(
+        registrator,
+        allDecoratorType,
+        registration.service
+      );
+    } else {
+      this.verifyRegistration(registrator, dependency, registration.service);
+    }
   }
 }

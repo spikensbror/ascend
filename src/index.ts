@@ -11,6 +11,7 @@ import { bootstrappers } from "./decorators/Bootstrapper";
 import { implementations } from "./decorators/Implements";
 
 // Decorator exports.
+export { all } from "./decorators/all";
 export { Bootstrapper } from "./decorators/Bootstrapper";
 export { Implements } from "./decorators/Implements";
 export { Service } from "./decorators/Service";

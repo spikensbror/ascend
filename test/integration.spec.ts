@@ -6,10 +6,14 @@ import "mocha";
 import {
   ascend,
   DecoratedExampleServiceImpl,
+  MultiDecoratedDependencyService,
+  MultiDecoratedDependencyServiceImpl1,
+  MultiDecoratedDependencyServiceImpl2,
   SimpleDecoratedDependencyService
 } from "./integration/ascender";
 
 import {
+  BootstrappedDependencyService,
   DecoratedDependencyService,
   DecoratedExampleService,
   NotRegisteredService
@@ -42,6 +46,16 @@ describe("integration-test configured ascend resolver", () => {
     expect(impl.simple).to.equal(
       resolver.resolve(SimpleDecoratedDependencyService)
     );
+
+    // Verify @all inject.
+
+    const multipleTypes: Function[] = [];
+    impl.multiple.forEach((m: MultiDecoratedDependencyService) => {
+      multipleTypes.push(m.constructor);
+    });
+
+    expect(multipleTypes).to.include(MultiDecoratedDependencyServiceImpl1);
+    expect(multipleTypes).to.include(MultiDecoratedDependencyServiceImpl2);
   });
 
   describe("throws error", () => {
@@ -100,15 +114,14 @@ describe("integration-test configured ascend resolver", () => {
   describe("with options", () => {
     it("disables discovery of decorated implementations", () => {
       const resolver = ascend({ discoverDecoratedImplementations: false });
-      const expected = ascend().getRegistrationCount() - implementations.length;
 
-      expect(resolver.getRegistrationCount()).to.equal(expected);
+      expect(() => resolver.resolve(DecoratedExampleService)).to.throw();
     });
 
     it("disables discovery of bootstrappers", () => {
       const resolver = ascend({ discoverDecoratedBootstrappers: false });
 
-      expect(resolver.getRegistrationCount()).to.equal(implementations.length);
+      expect(() => resolver.resolve(BootstrappedDependencyService)).to.throw();
     });
 
     it("registers implementations", () => {

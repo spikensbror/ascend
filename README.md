@@ -107,7 +107,9 @@ export class ExampleBootstrapper implements IBootstrapper {
 
 For documentation on `Registrator`, see [src/Registrator.ts](src/Registrator.ts).
 
-## Example
+## Examples
+
+### Implementation
 
 See the following files for the main entry points of a working implementation.
 
@@ -118,6 +120,38 @@ From there, you can look at any additionally imported files for more information
 
 Note: The imports are project-local here, in your project you'd use
 `import ... from "ascend-ioc"` instead of `import ... from "../../src`.
+
+### @all
+
+The `@all` decorator allows you to specify that a constructor parameter should
+receive all implementations of the dependency.
+
+```typescript
+export class Dependency {
+  // ...
+}
+
+@Implements(Dependency)
+export class DependencyImpl1 {
+  // ...
+}
+
+@Implements(Dependency)
+export class DependencyImpl2 {
+  // ...
+}
+
+@Implements(Example)
+export class Example {
+  private readonly dependencies: Dependency[];
+
+  public constructor(@all(Dependency) dependencies: []) {
+    this.dependencies = dependencies;
+  }
+
+  // ...
+}
+```
 
 ## Gotchas
 

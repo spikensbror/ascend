@@ -8,4 +8,14 @@ export class DependencyReflector {
 
     return Reflect.getOwnMetadata("design:paramtypes", implementation) || [];
   }
+
+  public getAllDecoratorType(
+    implementation: Function,
+    parameterIndex: number
+  ): Function | undefined {
+    return Reflect.getOwnMetadata(
+      "ascend:multi:" + parameterIndex,
+      implementation
+    );
+  }
 }

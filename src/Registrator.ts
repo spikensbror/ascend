@@ -7,14 +7,14 @@ import { RegistrationFactory } from "./RegistrationFactory";
  */
 export class Registrator {
   private readonly registrationFactory: RegistrationFactory;
-  private readonly registrations: Map<Function, Registration>;
+  private readonly registrations: Map<Function, Registration[]>;
 
   /**
    * Creates a new service registrator.
    */
   public constructor(registrationFactory: RegistrationFactory) {
     this.registrationFactory = registrationFactory;
-    this.registrations = new Map<Function, Registration>();
+    this.registrations = new Map<Function, Registration[]>();
   }
 
   /**
@@ -24,7 +24,7 @@ export class Registrator {
    * @param implementation The service implementation type, same as `service` if undefined.
    */
   public register(implementation: Function): void {
-    this.setRegistration(this.registrationFactory.create(implementation));
+    this.addRegistration(this.registrationFactory.create(implementation));
   }
 
   /**
@@ -37,7 +37,7 @@ export class Registrator {
     service: Constructor<T>,
     instance: T
   ): void {
-    this.setRegistration(new Registration(service, service, instance));
+    this.addRegistration(new Registration(service, service, instance));
   }
 
   /**
@@ -45,7 +45,7 @@ export class Registrator {
    *
    * @returns The service registrations performed by the registrator.
    */
-  public getRegistrations(): Map<Function, Registration> {
+  public getRegistrations(): Map<Function, Registration[]> {
     return this.registrations;
   }
 
@@ -54,7 +54,13 @@ export class Registrator {
    *
    * @param definition The service registration to register.
    */
-  private setRegistration(registration: Registration): void {
-    this.registrations.set(registration.service, registration);
+  private addRegistration(registration: Registration): void {
+    let registrations = this.registrations.get(registration.service);
+    if (registrations === undefined) {
+      registrations = [];
+      this.registrations.set(registration.service, registrations);
+    }
+
+    registrations.push(registration);
   }
 }

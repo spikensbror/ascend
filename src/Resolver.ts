@@ -7,14 +7,14 @@ import { Registration } from "./Registration";
  */
 export class Resolver {
   private readonly dependencyReflector: DependencyReflector;
-  private readonly registrations: Map<Function, Registration>;
+  private readonly registrations: Map<Function, Registration[]>;
 
   /**
    * Creates a new service resolver.
    */
   public constructor(
     dependencyReflector: DependencyReflector,
-    registrations: Map<Function, Registration>
+    registrations: Map<Function, Registration[]>
   ) {
     this.dependencyReflector = dependencyReflector;
     this.registrations = registrations;
@@ -27,16 +27,21 @@ export class Resolver {
    * @returns The resolved service instance.
    */
   public resolve<T>(service: Constructor<T>): T {
-    const definition = this.registrations.get(service);
+    const registration = this.getRegistrations(service)[0];
 
-    // Make sure that the service has been registered.
-    if (definition === undefined) {
-      throw new Error("Service has not been registered: " + service);
-    }
+    this.tryCreateInstance(registration);
 
-    this.tryCreateInstance(definition);
+    return (registration.instance as any) as T;
+  }
 
-    return (definition.instance as any) as T;
+  public resolveMany<T>(service: Constructor<T>): T[] {
+    const registrations = this.getRegistrations(service);
+
+    return registrations.map((registration: Registration) => {
+      this.tryCreateInstance(registration);
+
+      return (registration.instance as any) as T;
+    });
   }
 
   /**
@@ -46,6 +51,17 @@ export class Resolver {
    */
   public getRegistrationCount(): number {
     return this.registrations.size;
+  }
+
+  private getRegistrations(service: Function): Registration[] {
+    const registrations = this.registrations.get(service);
+
+    // Make sure that the service has been registered.
+    if (registrations === undefined) {
+      throw new Error("Service has not been registered: " + service);
+    }
+
+    return registrations;
   }
 
   private tryCreateInstance(registration: Registration): void {
@@ -61,9 +77,34 @@ export class Resolver {
     const args: any[] = [];
     const dependencies = this.getDependencies(implementation);
 
-    dependencies.forEach((d: Function) => args.push(this.resolve(d)));
+    dependencies.forEach((d: Function, i: number) => {
+      args.push(this.resolveDependency(registration, d, i));
+    });
 
     registration.instance = new implementation(...args);
+  }
+
+  private resolveDependency(
+    registration: Registration,
+    dependency: Function,
+    parameterIndex: number
+  ): any {
+    return (
+      this.resolveAllDecoratorDependency(registration, parameterIndex) ||
+      this.resolve(dependency)
+    );
+  }
+
+  private resolveAllDecoratorDependency(
+    registration: Registration,
+    parameterIndex: number
+  ): object[] | undefined {
+    const type = this.dependencyReflector.getAllDecoratorType(
+      registration.implementation,
+      parameterIndex
+    );
+
+    return type && this.resolveMany(type);
   }
 
   private getDependencies(implementation: Function): Function[] {

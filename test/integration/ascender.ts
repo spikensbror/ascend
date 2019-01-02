@@ -11,6 +11,7 @@ import "reflect-metadata";
 export * from "./BootstrappedDependencyServiceImpl";
 export * from "./DecoratedDependencyServiceImpl";
 export * from "./DecoratedExampleServiceImpl";
+export * from "./MultiDecoratedDependencyService";
 export * from "./SimpleDecoratedDependencyService";
 
 // Bootstrappers
