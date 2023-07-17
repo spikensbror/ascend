@@ -6,8 +6,8 @@
  */
 export function all(
   service: Function
-): (i: Function, pk: string | symbol, pi: number) => void {
-  return (i: Function, pk: string | symbol, pi: number): void => {
+): (i: Function, pk: string | symbol | undefined, pi: number) => void {
+  return (i: Function, pk: string | symbol | undefined, pi: number): void => {
     Reflect.defineMetadata("ascend:multi:" + pi, service, i);
   };
 }
