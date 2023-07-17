@@ -1,6 +1,6 @@
 {
   "name": "ascend-ioc",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Inversion of control system for building TypeScript node applications.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -24,7 +24,7 @@
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
     "chai": "^4.2.0",
-    "mocha": "^5.2.0",
+    "mocha": "^10.2.0",
     "prettier": "1.15.3",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.0",
