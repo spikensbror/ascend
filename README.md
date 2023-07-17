@@ -73,8 +73,16 @@ export class ExampleServiceImpl implements ExampleService {
 }
 ```
 
-If you have a self-implementing service, you can use the `@Service` decorator which
-is syntactic sugar for the following scenario:
+If you have a self-implementing service, you can use the `@Service` decorator:
+
+```typescript
+@Service
+export class ExampleService {
+  // ...
+}
+```
+
+This is syntactic sugar and equivalent to:
 
 ```typescript
 @Implements(ExampleService)
