@@ -140,12 +140,12 @@ export class Dependency {
 }
 
 @Implements(Dependency)
-export class DependencyImpl1 {
+export class DependencyImpl1 implements Dependency {
   // ...
 }
 
 @Implements(Dependency)
-export class DependencyImpl2 {
+export class DependencyImpl2 implements Dependency {
   // ...
 }
 
@@ -177,6 +177,12 @@ export class ExampleService {
     throw new Error("Not implemented");
   }
 }
+
+export class ExampleServiceImpl implements ExampleService {
+  public doSomething(): void {
+    console.log('Doing something!');
+  }
+}
 ```
 
 ### Automatic service discovery
@@ -185,7 +191,7 @@ Since files are only included when they are required, you will have to re-export
 service implementation types so that they are available in the application and
 Ascend can discover them.
 
-This is usually made through an `ascender.ts` imported in your `index.ts`-equivalent:
+This is easily accomplished by creating an `ascender.ts` file:
 
 ```typescript
 export * from "./something/all";
@@ -194,4 +200,16 @@ export * from "./other/all";
 export { ascend } from "ascend-ioc";
 ```
 
-A tip here is to use barrel files to reduce the maintenance of your ascender file.
+Then, import and use it as follows:
+
+```typescript
+import { ascend } from './ascender';
+
+...
+
+const resolver = ascend();
+
+...
+```
+
+_A tip here is to use barrel files to reduce the maintenance of your ascender file._
